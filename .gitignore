@@ -1,6 +1,7 @@
 #OS junk files
 *.DS_Store
 [Tt]humbs.db
+__*/
 
 #Intellij files
 .idea/
