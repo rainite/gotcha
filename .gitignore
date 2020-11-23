@@ -1,7 +1,7 @@
-# Folder view configuration files
-.DS_Store
-Desktop.ini
+#OS junk files
+*.DS_Store
+[Tt]humbs.db
 
-# Thumbnail cache files
-._*
-Thumbs.db
+#Intellij files
+.idea/
+*.iml
