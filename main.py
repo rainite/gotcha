@@ -30,15 +30,14 @@ class Main:
             link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
             self.browser.get(link)
             self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys("kevinchenlife@gmail.com")
-            self.clickSignIn()
+            self.clickSignIn("ONE-TIME")
 
             time.sleep(2)
-            if self.browser.find_element_by_class_name("alert-body"):
-                secKey = input("Enter email Security Code:")
-                divList = self.browser.find_elements_by_class_name("form-v-code")
-                divList[0].find_element_by_xpath(".//input").send_keys(secKey)
-                self.clickSignIn()
-                time.sleep(1)
+            secKey = input("Enter email Security Code:")
+            divList = self.browser.find_elements_by_class_name("form-v-code")
+            divList[0].find_element_by_xpath(".//input").send_keys(secKey)
+            self.clickSignIn("sign in")
+            time.sleep(1)
 
         # search
         # first time search
@@ -64,6 +63,7 @@ class Main:
                     button = item.find_element_by_class_name("item-button-area")
                     buttonText = button.find_element_by_xpath(".//button")
                     if buttonText.text != "AUTO NOTIFY":
+                        print("find one: " + item.text)
                         buttonText.click()
                         findOne = True
                         break
@@ -81,9 +81,9 @@ class Main:
                         break
                 playSound()
 
-    def clickSignIn(self):
+    def clickSignIn(self, text):
         signInList = self.browser.find_elements_by_class_name("form-cell")
         for element in signInList:
-            if element.text == "SIGN IN":
+            if text.upper() in str(element.text).upper():
                 element.click()
                 break
