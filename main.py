@@ -1,6 +1,8 @@
 import time
 from playsound import playsound
+
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 def playSound():
