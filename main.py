@@ -25,31 +25,36 @@ class Main:
         except:
             print("No pop-in window, skip")
 
-        # log in
-        if self.browser.find_element_by_class_name("nav-complex-inner"):
-            link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
-            self.browser.get(link)
-            self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys("kevinchenlife@gmail.com")
-            self.clickSignIn()
-
-            time.sleep(2)
-            if self.browser.find_element_by_class_name("alert-body"):
-                secKey = input("Enter email Security Code:")
-                divList = self.browser.find_elements_by_class_name("form-v-code")
-                divList[0].find_element_by_xpath(".//input").send_keys(secKey)
-                self.clickSignIn()
-                time.sleep(1)
+        # # log in
+        # if self.browser.find_element_by_class_name("nav-complex-inner"):
+        #     link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
+        #     self.browser.get(link)
+        #     self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys("kevinchenlife@gmail.com")
+        #     self.clickSignIn()
+        #
+        #     time.sleep(2)
+        #     if self.browser.find_element_by_class_name("alert-body"):
+        #         secKey = input("Enter email Security Code:")
+        #         divList = self.browser.find_elements_by_class_name("form-v-code")
+        #         divList[0].find_element_by_xpath(".//input").send_keys(secKey)
+        #         self.clickSignIn()
+        #         time.sleep(1)
 
         # search
         # first time search
         searchBox = self.browser.find_element_by_class_name("header2020-search-box")
-        searchBox.find_element_by_xpath(".//input").send_keys("asus tuf 3080")
+        searchBox.find_element_by_xpath(".//input").send_keys("3080 rtx")
         # loop search
         findOne = False
         while not findOne:
             time.sleep(2)
             searchButton = self.browser.find_element_by_class_name("header2020-search-button")
             searchButton.find_element_by_xpath(".//button").click()
+            filterItems = self.browser.find_elements_by_class_name("filter-box-list")
+            for item in filterItems:
+                if "graphics card".upper() in str(item.text).upper():
+                    item.click()
+                    break
             itemList = self.browser.find_elements_by_class_name("item-cell")
 
             # loop item
