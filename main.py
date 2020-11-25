@@ -14,7 +14,7 @@ def playSound():
 class Main:
     browser = None
     accountName = "kevinchenlife@gmail.com"
-    filterSet = {"ssd", "pc", "atx", "DirectX11", "EZDIY"}
+    filterSet = {"corn", "EZDIY", "intel", "Montech"}
     searchKey = "3080 rtx"
 
     def __init__(self):
@@ -29,18 +29,18 @@ class Main:
             print("No pop-in window, skip")
 
         # log in
-        if self.browser.find_element_by_class_name("nav-complex-inner"):
-            link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
-            self.browser.get(link)
-            self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys(self.accountName)
-            self.clickSignIn("ONE-TIME")
-
-            time.sleep(2)
-            secKey = input("Enter email Security Code:")
-            divList = self.browser.find_elements_by_class_name("form-v-code")
-            divList[0].find_element_by_xpath(".//input").send_keys(secKey)
-            self.clickSignIn("sign in")
-            time.sleep(1)
+        # if self.browser.find_element_by_class_name("nav-complex-inner"):
+        #     link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
+        #     self.browser.get(link)
+        #     self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys(self.accountName)
+        #     self.clickSignIn("ONE-TIME")
+        #
+        #     time.sleep(2)
+        #     secKey = input("Enter email Security Code:")
+        #     divList = self.browser.find_elements_by_class_name("form-v-code")
+        #     divList[0].find_element_by_xpath(".//input").send_keys(secKey)
+        #     self.clickSignIn("sign in")
+        #     time.sleep(1)
 
         # search
         # first time search
