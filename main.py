@@ -13,6 +13,9 @@ def playSound():
 
 class Main:
     browser = None
+    accountName = "kevinchenlife@gmail.com"
+    filterSet = {"ssd", "pc", "atx", "DirectX11", "EZDIY"}
+    searchKey = "3080 rtx"
 
     def __init__(self):
         self.browser = webdriver.Chrome()
@@ -29,7 +32,7 @@ class Main:
         if self.browser.find_element_by_class_name("nav-complex-inner"):
             link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
             self.browser.get(link)
-            self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys("kevinchenlife@gmail.com")
+            self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys(self.accountName)
             self.clickSignIn("ONE-TIME")
 
             time.sleep(2)
@@ -42,23 +45,25 @@ class Main:
         # search
         # first time search
         searchBox = self.browser.find_element_by_class_name("header2020-search-box")
-        searchBox.find_element_by_xpath(".//input").send_keys("3080 rtx")
+        searchBox.find_element_by_xpath(".//input").send_keys(self.searchKey)
         # loop search
         findOne = False
         while not findOne:
             time.sleep(2)
             searchButton = self.browser.find_element_by_class_name("header2020-search-button")
             searchButton.find_element_by_xpath(".//button").click()
-            filterItems = self.browser.find_elements_by_class_name("filter-box-list")
-            for item in filterItems:
-                if "graphics card".upper() in str(item.text).upper():
-                    item.click()
-                    break
-            itemList = self.browser.find_elements_by_class_name("item-cell")
 
             # loop item
             time.sleep(1)
+            itemList = self.browser.find_elements_by_class_name("item-cell")
             for item in itemList:
+                filterout = False
+                for s in self.filterSet:
+                    if s.upper() in str(item.text).upper():
+                        filterout = True
+                        break
+                if filterout:
+                    continue
                 try:
                     button = item.find_element_by_class_name("item-button-area")
                     buttonText = button.find_element_by_xpath(".//button")
