@@ -13,7 +13,7 @@ def playSound():
 
 class Main:
     browser = None
-    accountName = "kevinchenlife@gmail.com"
+    accountName = input("Enter email: ")
     filterSet = {"corn", "EZDIY", "intel", "Montech"}
     searchKey = "3080 rtx"
 
@@ -92,3 +92,7 @@ class Main:
             if text.upper() in str(element.text).upper():
                 element.click()
                 break
+
+
+# entry point
+Main().start()
