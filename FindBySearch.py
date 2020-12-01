@@ -13,34 +13,17 @@ def playSound():
 
 class Main:
     browser = None
-    accountName = input("Enter email: ")
-    filterSet = {"corn", "EZDIY", "intel", "Montech"}
+    filterSet = {"corn", "EZDIY", "intel", "Montech", "yeston"}
     searchKey = "3080 rtx"
 
-    def __init__(self):
-        self.browser = webdriver.Chrome()
-
     def start(self):
+        self.browser = webdriver.Chrome()
         self.browser.get("https://www.newegg.com/#")
         time.sleep(5)
-        try:
-            self.browser.find_element_by_class_name("close").click()
-        except:
-            print("No pop-in window, skip")
+        self.closePopUpWindow()
 
         # log in
-        if self.browser.find_element_by_class_name("nav-complex-inner"):
-            link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
-            self.browser.get(link)
-            self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys(self.accountName)
-            self.clickSignIn("ONE-TIME")
-
-            time.sleep(2)
-            secKey = input("Enter email Security Code:")
-            divList = self.browser.find_elements_by_class_name("form-v-code")
-            divList[0].find_element_by_xpath(".//input").send_keys(secKey)
-            self.clickSignIn("sign in")
-            time.sleep(1)
+        self.logIn()
 
         # search
         # first time search
@@ -77,22 +60,70 @@ class Main:
 
             # find one
             if findOne:
-                summary = self.browser.find_element_by_class_name("item-actions")
-                cartButtons = summary.find_elements_by_xpath(".//button")
                 time.sleep(1)
-                for button in cartButtons:
-                    if "Checkout".upper() in str(button.text).upper():
-                        button.click()
-                        break
+                self.tryCheckOut(0)
                 playSound()
 
-    def clickSignIn(self, text):
-        signInList = self.browser.find_elements_by_class_name("form-cell")
-        for element in signInList:
-            if text.upper() in str(element.text).upper():
-                element.click()
-                break
+    def logIn(self):
+        def clickSignIn(text):
+            signInList = self.browser.find_elements_by_class_name("form-cell")
+            for element in signInList:
+                if text.upper() in str(element.text).upper():
+                    element.click()
+                    break
+        # log in
+        if self.browser.find_element_by_class_name("nav-complex-inner"):
+            link = self.browser.find_element_by_class_name("nav-complex-inner").get_attribute('href')
+            self.browser.get(link)
+            accountName = input("Enter email: ")
+            self.browser.find_element(By.ID, "labeled-input-signEmail").send_keys(accountName)
+            clickSignIn("sign in")
 
+            time.sleep(2)
+            secKey = input("Enter email Security Code:")
+            divList = self.browser.find_elements_by_class_name("form-v-code")
+            divList[0].find_element_by_xpath(".//input").send_keys(secKey)
+            clickSignIn("sign in")
+            time.sleep(1)
+
+    def isItemAvailable(self):
+        itemClassNames = ["btn-primary", "atnPrimary"]
+        try:
+            for className in itemClassNames:
+                buttons = self.browser.find_elements(By.CLASS_NAME, className)
+                for button in buttons:
+                    if "cart".upper() in str(button.text).upper():
+                        self.closePopUpWindow()
+                        # add to cart
+                        button.click()
+                        desc = self.browser.find_element(By.CLASS_NAME, "product-title")
+                        print(desc.text)
+                        return True
+        except:
+            return False
+        return False
+
+    def closePopUpWindow(self):
+        try:
+            self.browser.find_element_by_class_name("close").click()
+        except:
+            return
+
+    def tryCheckOut(self, times):
+        if times > 1:
+            return
+        buttonNames = ["btn-undefined", "btn-primary"]
+        for button in buttonNames:
+            try:
+                buttons = self.browser.find_elements(By.CLASS_NAME, button)
+                for b in buttons:
+                    if "checkout".upper() in str(b.text).upper():
+                        b.click()
+                        time.sleep(1)
+                        self.tryCheckOut(times + 1)
+                        return
+            except:
+                return
 
 # entry point
 Main().start()
