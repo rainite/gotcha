@@ -59,7 +59,7 @@ class Main:
                 self.browser.switch_to.new_window('tab')
 
         # we only need to log in one time
-        # self.logIn()
+        self.logIn()
 
         # loop refresh
         find = False
@@ -75,7 +75,6 @@ class Main:
                     time.sleep(1)
                     self.tryCheckOut(0)
                     playSound()
-
 
     def logIn(self):
         def clickSignIn(text):
@@ -141,4 +140,4 @@ class Main:
 
 # entry point
 main = Main()
-main.start(["https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4205209"])
+main.start(URLs)
