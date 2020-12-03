@@ -3,6 +3,10 @@ from playsound import playsound
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+
+########
+# This script will be marked as bot. Needs work
+########
 URLs = [
     "https://www.newegg.com/asus-geforce-rtx-3080-rog-strix-rtx3080-o10g-gaming/p/N82E16814126457?Description=3080%20rtx&cm_re=3080_rtx-_-14-126-457-_-Product&quicklink=true",
     "https://www.newegg.com/evga-geforce-rtx-3080-10g-p5-3897-kr/p/N82E16814487518?Description=3080%20rtx&cm_re=3080_rtx-_-14-487-518-_-Product&quicklink=true",

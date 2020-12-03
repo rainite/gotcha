@@ -11,7 +11,7 @@ def playSound():
         playsound("alart.wav")
 
 
-# All wait time is needed, otherwise will be marked as bot
+# All wait times are needed to avoid being marked as bot
 
 class Main:
     browser = None
