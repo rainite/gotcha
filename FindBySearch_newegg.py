@@ -11,6 +11,8 @@ def playSound():
         playsound("alart.wav")
 
 
+# All wait time is needed, otherwise will be marked as bot
+
 class Main:
     browser = None
     filterSet = {"corn", "EZDIY", "intel", "Montech", "yeston"}
@@ -50,7 +52,7 @@ class Main:
                 try:
                     button = item.find_element_by_class_name("item-button-area")
                     buttonText = button.find_element_by_xpath(".//button")
-                    if buttonText.text != "AUTO NOTIFY":
+                    if buttonText.text != "AUTO NOTIFY" and buttonText.text != "VIEW DETAILS":
                         print("find one: " + item.text)
                         buttonText.click()
                         findOne = True
