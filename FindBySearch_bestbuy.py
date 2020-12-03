@@ -3,6 +3,7 @@ from playsound import playsound
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 def playSound():
@@ -14,7 +15,7 @@ def playSound():
 class Main:
     browser = None
     filterSet = {}
-    searchKey = "rtx 3080"
+    searchKey = "rtx 2080"
 
     def start(self):
         self.browser = webdriver.Chrome()
@@ -23,13 +24,14 @@ class Main:
         self.closePopUpWindow()
 
         # log in
-        # self.logIn()
+        self.logIn()
 
         # loop search
         findOne = False
+        time.sleep(1)
+        self.browser.find_element(By.CLASS_NAME, "search-input").send_keys(self.searchKey)
         while not findOne:
             time.sleep(2)
-            self.browser.find_element(By.CLASS_NAME, "search-input").send_keys(self.searchKey)
             self.browser.find_element(By.CLASS_NAME, "header-search-button").click()
             # loop item
             time.sleep(1)
@@ -37,10 +39,9 @@ class Main:
 
             # find one
             if findOne:
-                time.sleep(1)
+                time.sleep(2)
                 self.tryCheckOut()
                 playSound()
-
 
     def logIn(self):
         # log in
@@ -60,8 +61,12 @@ class Main:
         itemClassList = self.browser.find_elements(By.CLASS_NAME, "sku-item")
         for itemClass in itemClassList:
             try:
-                itemClass.find_element(By.CLASS_NAME, "add-to-cart-button").click()
-                return True
+                addCart = itemClass.find_element(By.CLASS_NAME, "add-to-cart-button")
+                if "out".upper() not in str(addCart.text).upper() and ("coming".upper() not in str(addCart.text).upper()):
+                    ActionChains(self.browser).move_to_element(addCart).perform()
+                    time.sleep(1)
+                    addCart.click()
+                    return True
             except:
                 return False
         return False
@@ -73,9 +78,12 @@ class Main:
             return
 
     def tryCheckOut(self):
-        self.browser.find_element(By.CLASS_NAME, "go-to-cart-button").click()
-        time.sleep(1)
-        self.browser.find_element(By.CLASS_NAME, "checkout-buttons__checkout").click()
+        try:
+            self.browser.find_element(By.CLASS_NAME, "go-to-cart-button").click()
+            time.sleep(2)
+            self.browser.find_element(By.CLASS_NAME, "checkout-buttons__checkout").click()
+        except:
+            return
 
 
 # entry point
