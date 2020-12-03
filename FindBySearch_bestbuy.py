@@ -15,7 +15,7 @@ def playSound():
 class Main:
     browser = None
     filterSet = {}
-    searchKey = "rtx 2080"
+    searchKey = "rtx 3080"
 
     def start(self):
         self.browser = webdriver.Chrome()
@@ -53,8 +53,7 @@ class Main:
                 break
         time.sleep(1)
         self.browser.find_element(By.CLASS_NAME, "lam-signIn__button").click()
-        input("type in email & password in web")
-        self.browser.find_element(By.CLASS_NAME, "cia-form__controls__submit").click()
+        input("Please log in to home page")
         time.sleep(2)
 
     def isItemAvailable(self):
