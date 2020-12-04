@@ -2,6 +2,7 @@ import time
 from playsound import playsound
 
 from selenium import webdriver
+from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -31,17 +32,22 @@ class Main:
         time.sleep(1)
         self.browser.find_element(By.CLASS_NAME, "search-input").send_keys(self.searchKey)
         while not findOne:
-            time.sleep(2)
-            self.browser.find_element(By.CLASS_NAME, "header-search-button").click()
-            # loop item
-            time.sleep(1)
-            findOne = self.isItemAvailable()
-
-            # find one
-            if findOne:
+            try:
                 time.sleep(2)
-                self.tryCheckOut()
-                playSound()
+                self.browser.find_element(By.CLASS_NAME, "header-search-button").click()
+                # loop item
+                time.sleep(1)
+                findOne = self.isItemAvailable()
+
+                # find one
+                if findOne:
+                    time.sleep(2)
+                    self.tryCheckOut()
+                    playSound()
+            except ElementClickInterceptedException:
+                time.sleep(4)
+                self.browser.find_element(By.ID, "survey_invite_no").click()
+                continue
 
     def logIn(self):
         # log in
