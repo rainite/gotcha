@@ -15,7 +15,7 @@ def playSound():
 
 class Main:
     browser = None
-    filterSet = {"corn", "EZDIY", "intel", "Montech", "yeston"}
+    filterSet = {"corn", "EZDIY", "intel", "Montech", "yeston", "HPT2-1200M"}
     searchKey = "3080 rtx"
 
     def start(self):
