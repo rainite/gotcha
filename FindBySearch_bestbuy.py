@@ -68,6 +68,7 @@ class Main:
             try:
                 addCart = itemClass.find_element(By.CLASS_NAME, "add-to-cart-button")
                 if "out".upper() not in str(addCart.text).upper() and ("coming".upper() not in str(addCart.text).upper()):
+                    print("item found: " + itemClass.text)
                     ActionChains(self.browser).move_to_element(addCart).perform()
                     time.sleep(1)
                     addCart.click()
