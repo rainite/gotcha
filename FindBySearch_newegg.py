@@ -34,7 +34,7 @@ class Main:
         # loop search
         findOne = False
         while not findOne:
-            time.sleep(2)
+            time.sleep(1)
             searchButton = self.browser.find_element_by_class_name("header2020-search-button")
             searchButton.find_element_by_xpath(".//button").click()
 
