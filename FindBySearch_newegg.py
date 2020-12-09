@@ -55,6 +55,12 @@ class Main:
                     if buttonText.text != "AUTO NOTIFY" and buttonText.text != "VIEW DETAILS":
                         print("find one: " + item.text)
                         buttonText.click()
+                        try:
+                            self.browser.find_element(By.CLASS_NAME, "close").click()
+                            buttonText.click()
+                        except:
+                            print("No pop-up window comes up")
+
                         findOne = True
                         break
                 except:
