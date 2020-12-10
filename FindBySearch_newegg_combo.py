@@ -16,8 +16,7 @@ def playSound():
 
 class Main:
     browser = None
-    filterSet = {"corn", "EZDIY", "intel", "Montech", "yeston", "HPT2-1200M", "Bridge"}
-    searchKey = "3080 rtx"
+    searchKey = "3080 combo"
 
     def start(self):
         self.browser = webdriver.Chrome()
@@ -26,7 +25,7 @@ class Main:
         self.closePopUpWindow()
 
         # log in
-        self.logIn()
+        input("please log in to main page")
 
         # search
         # first time search
@@ -40,17 +39,10 @@ class Main:
             searchButton.find_element_by_xpath(".//button").click()
 
             # loop item
-            time.sleep(1)
+            time.sleep(2)
             itemList = self.browser.find_elements_by_class_name("item-cell")
             random.shuffle(itemList)
             for item in itemList:
-                filterout = False
-                for s in self.filterSet:
-                    if s.upper() in str(item.text).upper():
-                        filterout = True
-                        break
-                if filterout:
-                    continue
                 try:
                     button = item.find_element_by_class_name("item-button-area")
                     buttonText = button.find_element_by_xpath(".//button")
