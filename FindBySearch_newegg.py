@@ -5,15 +5,24 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 # All wait times are needed to avoid being marked as bot
+""" 
+Must use a MAC and an iPhone to receive the notification. Mac should login with a different account from your iPhone,
+otherwise iPhone won't alert notifications for iMessage
+
+Alter key word in filterSet manually to exclude item in notification
+"""
 
 class Main:
     browser = None
     filterSet = {"Yeston"}
     phone = input("Input your iPhone number: ")
+    searchKey = input("Input search key word, eg: rtx 3080: \n")
+    searchKey = searchKey.replace(" ", "+")
+    searchURL = "https://www.newegg.com/p/pl?d=" + searchKey + "&N=100007709&isdeptsrh=1&PageSize=96"
 
     def start(self):
         self.browser = webdriver.Chrome()
-        self.browser.get("https://www.newegg.com/p/pl?d=rtx+3080&N=100007709&isdeptsrh=1&PageSize=96")
+        self.browser.get(self.searchURL)
         time.sleep(5)
         self.closePopUpWindow()
 
@@ -24,7 +33,7 @@ class Main:
                 time.sleep(60)
                 findOne = False
             time.sleep(1)
-            self.browser.get("https://www.newegg.com/p/pl?d=rtx+3080&N=100007709&isdeptsrh=1&PageSize=96")
+            self.browser.get(self.searchURL)
 
             # loop item
             time.sleep(1)
